@@ -1,6 +1,6 @@
 version = '1.0.0'
 
-ext.GITHUB_REPOSITORY_NAME = "template-plugin"
+ext.GITHUB_REPOSITORY_NAME = "release-gradle-plugin"
 
 apply plugin: "com.dipien.component.builder"
 apply plugin: 'com.jdroidtools.root'

@@ -1,6 +1,6 @@
-package com.dipien.template.task
+package com.dipien.release.task
 
-import com.dipien.template.common.AbstractTask
+import com.dipien.release.common.AbstractTask
 
 open class TemplateTask : AbstractTask() {
 

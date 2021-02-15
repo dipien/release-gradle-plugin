@@ -1,4 +1,4 @@
-package com.dipien.template.common
+package com.dipien.release.common
 
 import org.gradle.api.logging.LogLevel
 import org.gradle.api.logging.Logger

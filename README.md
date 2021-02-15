@@ -1,7 +1,6 @@
 [![Dipien](https://raw.githubusercontent.com/maxirosson/sample/master/.github/logo4.png)](http://www.dipien.com)
 
-# Dipien Public Repo Template
-Template for Dipien public Github repositories
+# Release Gradle Plugin
 
 ## Donations
 

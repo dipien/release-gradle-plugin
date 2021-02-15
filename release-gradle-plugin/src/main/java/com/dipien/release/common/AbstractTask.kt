@@ -1,7 +1,7 @@
-package com.dipien.template.common
+package com.dipien.release.common
 
-import com.dipien.template.TemplateExtension
-import com.dipien.template.TemplateGradlePlugin
+import com.dipien.release.ReleaseExtension
+import com.dipien.release.ReleaseGradlePlugin
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Internal
@@ -22,8 +22,8 @@ abstract class AbstractTask : DefaultTask() {
     }
 
     @Internal
-    protected fun getExtension(): TemplateExtension {
-        return project.extensions.getByName(TemplateGradlePlugin.EXTENSION_NAME) as TemplateExtension
+    protected fun getExtension(): ReleaseExtension {
+        return project.extensions.getByName(ReleaseGradlePlugin.EXTENSION_NAME) as ReleaseExtension
     }
 
     protected abstract fun onExecute()

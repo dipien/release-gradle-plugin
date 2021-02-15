@@ -1,0 +1,19 @@
+ext.PROJECT_NAME = "Release Gradle Plugin"
+description = "Gradle plugin to automate artifact releases"
+ext.ARTIFACT_ID = "releae-gradle-plugin"
+ext.GRADLE_PLUGIN_PORTAL_TAGS = ["gradle", "plugin", "release"]
+ext.GRADLE_PLUGIN_PORTAL_ID = "com.dipien.releasegradleplugin"
+ext.GRADLE_PLUGIN_PORTAL_IMPLEMENTATION_CLASS = "com.dipien.release.ReleaseGradlePlugin"
+
+apply plugin: "com.jdroidtools.gradle.plugin"
+
+buildscript {
+	dependencies {
+		classpath(BuildLibs.JDROID_GRADLE_PROJECT_PLUGIN)
+	}
+}
+
+dependencies {
+	testImplementation(Libs.JUNIT)
+}
+
