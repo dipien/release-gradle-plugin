@@ -2,7 +2,15 @@ version: 2.1
 
 parameters:
 
+  releaseGradleFlags:
+    type: string
+    default: "--max-workers 1 -PSNAPSHOT=false -PLOCAL_UPLOAD=false -PRELEASE_BUILD_TYPE_ENABLED=true -PRELEASE_FAKE_ENABLED=true -PACCEPT_SNAPSHOT_DEPENDENCIES=false -Dorg.gradle.internal.publish.checksums.insecure=true --stacktrace"
+
   api:
+    type: boolean
+    default: false
+
+  release:
     type: boolean
     default: false
 
@@ -10,6 +18,11 @@ references:
 
   working_dir: &working_dir
                  ~/project
+
+orbs:
+  # https://circleci.com/developer/orbs/orb/eddiewebb/queue
+  queue: eddiewebb/queue@1.5.0
+  ruby: circleci/ruby@1.1.2
 
 executors:
   jdk_executor:
@@ -105,6 +118,9 @@ jobs:
     steps:
       - checkout
       - attach_to_workspace
+      - queue/until_front_of_line:
+          block-workflow: true
+          only-on-branch: master
       - run:
           name: Uploading to Nexus Sonatype
           command: ./gradlew publish -PLOCAL_UPLOAD=false --refresh-dependencies --stacktrace
@@ -119,6 +135,37 @@ jobs:
       - run:
           name: Upgrade Dependencies
           command: ./gradlew upgradeDependencies -PpullRequestEnabled=true --stacktrace
+
+  release:
+    executor: jdk_executor
+    steps:
+      - checkout
+      - run:
+          name: Close GitHub Milestone
+          command: ./gradlew :closeGitHubMilestone << pipeline.parameters.releaseGradleFlags >>
+      - ruby/install:
+          version: '2.7'
+      - run:
+          name: Install github_changelog_generator
+          command: gem install github_changelog_generator -v 1.13.2
+      - run:
+          name: Create GitHub Release
+          command: ./gradlew :createGitHubRelease << pipeline.parameters.releaseGradleFlags >>
+      - run:
+          name: Generate Changelog
+          command: ./gradlew :generateChangelog << pipeline.parameters.releaseGradleFlags >>
+      - run:
+          name: Copy Signing secret key ring file
+          command: sudo bash -c "echo '$SIGNING_SECRET_KEY_RING' | base64 -d > '$SIGNING_SECRET_KEY_RING_FILE'"
+      - run:
+          name: Publish on Maven Central
+          command: ./gradlew publish << pipeline.parameters.releaseGradleFlags >>
+      - run:
+          name: Publish on Gradle Plugins Portal
+          command: ./gradlew publishPlugins -PGRADLE_PLUGIN_PORTAL_ENABLED=true << pipeline.parameters.releaseGradleFlags >>
+      - run:
+          name: Close and Release Repository
+          command: ./gradlew closeAndReleaseRepository << pipeline.parameters.releaseGradleFlags >>
 
 workflows:
   commit:
@@ -144,13 +191,18 @@ workflows:
             - test
             - validatePlugins
             - security
-#  weekly:
-#    triggers:
-#      - schedule:
-#          cron: "0 0 * * 0"
-#          filters:
-#            branches:
-#              only:
-#                - master
-#    jobs:
-#      - upgradeDependencies
+  #  weekly:
+  #    triggers:
+  #      - schedule:
+  #          cron: "0 0 * * 0"
+  #          filters:
+  #            branches:
+  #              only:
+  #                - master
+  #    jobs:
+  #      - upgradeDependencies
+
+  release:
+    when: << pipeline.parameters.release >>
+    jobs:
+      - release
