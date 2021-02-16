@@ -5,7 +5,7 @@ import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.options.Option
 
-class GenerateChangelogTask : AbstractGitHubTask() {
+open class GenerateChangelogTask : AbstractGitHubTask() {
 
     @get:Input
     @get:Optional

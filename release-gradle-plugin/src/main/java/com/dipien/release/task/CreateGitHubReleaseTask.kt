@@ -11,7 +11,7 @@ import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.options.Option
 import java.io.File
 
-class CreateGitHubReleaseTask : AbstractGitHubTask() {
+open class CreateGitHubReleaseTask : AbstractGitHubTask() {
 
     init {
         description = "Create a GitHub Release"

@@ -7,7 +7,7 @@ import com.jdroid.github.service.MilestoneService
 import java.io.IOException
 import java.util.Date
 
-class CloseGitHubMilestoneTask : AbstractGitHubTask() {
+open class CloseGitHubMilestoneTask : AbstractGitHubTask() {
 
     init {
         description = "Close the GitHub Milestone"
