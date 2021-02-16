@@ -27,11 +27,11 @@ open class SendMergePullRequestTask : AbstractTask() {
 
     @get:Input
     @Option(description = "")
-    var baseBranch = defaultBranch
+    lateinit var baseBranch: String
 
     @get:Input
     @Option(description = "")
-    var headBranch = releaseBranch
+    lateinit var headBranch: String
 
     @get:Input
     @Option(description = "")

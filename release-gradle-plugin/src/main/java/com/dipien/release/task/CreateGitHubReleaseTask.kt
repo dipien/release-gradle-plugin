@@ -19,7 +19,7 @@ open class CreateGitHubReleaseTask : AbstractGitHubTask() {
 
     @get:Input
     @Option(description = "")
-    var gitBranch = releaseBranch
+    lateinit var gitBranch: String
 
     @get:Input
     @get:Optional

@@ -27,13 +27,20 @@ class ReleaseGradlePlugin : Plugin<Project> {
 
         project.afterEvaluate {
             configureAbstractGitHubTask(createGitHubReleaseTask, extension)
+            createGitHubReleaseTask.gitBranch = extension.releaseBranch
+
             configureAbstractGitHubTask(closeGitHubMilestoneTask, extension)
+
             configureAbstractGitHubTask(automergePullRequestTask, extension)
+
             configureAbstractGitHubTask(generateChangelogTask, extension)
+            generateChangelogTask.gitBranch = extension.releaseBranch
             generateChangelogTask.gitHubUserName = extension.gitHubUserName
             generateChangelogTask.gitHubUserEmail = extension.gitHubUserEmail
 
             configureAbstractTask(sendMergePullRequestTask, extension)
+            sendMergePullRequestTask.baseBranch = extension.defaultBranch
+            sendMergePullRequestTask.headBranch = extension.releaseBranch
         }
     }
 

@@ -17,7 +17,7 @@ open class GenerateChangelogTask : AbstractGitHubTask() {
 
     @get:Input
     @Option(description = "")
-    var gitBranch = releaseBranch
+    lateinit var gitBranch: String
 
     override fun onExecute() {
 
