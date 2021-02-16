@@ -17,7 +17,7 @@ class ReleaseGradlePlugin : Plugin<Project> {
     }
 
     override fun apply(project: Project) {
-        val extension = project.extensions.create(EXTENSION_NAME, ReleaseExtension::class.java)
+        val extension = project.extensions.create(EXTENSION_NAME, ReleaseExtension::class.java, project)
 
         val createGitHubReleaseTask: CreateGitHubReleaseTask = project.tasks.create("createGitHubRelease", CreateGitHubReleaseTask::class.java)
         val closeGitHubMilestoneTask: CloseGitHubMilestoneTask = project.tasks.create("closeGitHubMilestone", CloseGitHubMilestoneTask::class.java)
