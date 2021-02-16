@@ -30,7 +30,7 @@ open class GenerateChangelogTask : AbstractGitHubTask() {
             commandExecutor.execute("git config user.email $gitHubUserEmail")
         }
 
-        commandExecutor.execute("github_changelog_generator --no-unreleased --no-pull-requests --no-pr-wo-labels --exclude-labels task -u $gitHubRepositoryOwner -p $gitHubRepositoryName -t $gitHubWriteToken")
+        commandExecutor.execute("github_changelog_generator --no-unreleased --no-pull-requests --no-pr-wo-labels --exclude-labels task -t $gitHubWriteToken")
         commandExecutor.execute("git add CHANGELOG.md")
         val result: org.gradle.process.ExecResult =
             commandExecutor.execute("git commit -m \"Updated CHANGELOG.md\"", project.rootProject.projectDir, logStandardOutput = true, logErrorOutput = true)
