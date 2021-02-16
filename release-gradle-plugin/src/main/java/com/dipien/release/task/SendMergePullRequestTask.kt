@@ -34,12 +34,9 @@ open class SendMergePullRequestTask : AbstractTask() {
     lateinit var headBranch: String
 
     @get:Input
+    @get:Optional
     @Option(description = "")
-    var commitMessage: String = "Merge from branch $headBranch to $baseBranch"
-
-    @get:Input
-    @Option(description = "")
-    var pullRequestTitle: String = commitMessage
+    var pullRequestTitle: String? = null
 
     @get:Input
     @get:Optional
@@ -96,6 +93,10 @@ open class SendMergePullRequestTask : AbstractTask() {
                     bodyBuilder.append("- If you have a conflict on the **version**, please resolve it assigning the higher version.\n")
                     bodyBuilder.append("- Use the **Create a merge commit** merge option")
                     pullRequestBody = bodyBuilder.toString()
+                }
+
+                if (pullRequestTitle == null) {
+                    pullRequestTitle = "Merge from branch $headBranch to $baseBranch"
                 }
 
                 pullRequest = pullRequestService.createPullRequest(
