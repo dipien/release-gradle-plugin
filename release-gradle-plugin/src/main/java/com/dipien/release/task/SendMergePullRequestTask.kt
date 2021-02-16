@@ -57,7 +57,6 @@ open class SendMergePullRequestTask : AbstractTask() {
     var pullRequestTeamReviewers: List<String>? = null
 
     @get:Input
-    @get:Optional
     @Option(description = "")
     var addAutomergeLabel: Boolean = true
 

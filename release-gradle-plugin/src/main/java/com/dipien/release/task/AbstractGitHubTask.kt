@@ -3,6 +3,7 @@ package com.dipien.release.task
 import com.dipien.release.common.AbstractTask
 import com.jdroid.github.client.GitHubClient
 import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.Internal
 
 abstract class AbstractGitHubTask : AbstractTask() {
 
@@ -22,6 +23,7 @@ abstract class AbstractGitHubTask : AbstractTask() {
         return client
     }
 
+    @Internal
     fun getRepositoryUrl(): String {
         return "git@github.com:$gitHubRepositoryOwner/$gitHubRepositoryName.git"
     }
