@@ -19,11 +19,6 @@ references:
   working_dir: &working_dir
                  ~/project
 
-orbs:
-  # https://circleci.com/developer/orbs/orb/eddiewebb/queue
-  queue: eddiewebb/queue@1.5.0
-  ruby: circleci/ruby@1.1.2
-
 executors:
   jdk_executor:
     working_directory: *working_dir
@@ -32,6 +27,11 @@ executors:
     environment:
       JVM_OPTS: -Xmx3200m
       GRADLE_OPTS: -Dorg.gradle.daemon=false -Dorg.gradle.caching=true
+
+orbs:
+  # https://circleci.com/developer/orbs/orb/eddiewebb/queue
+  queue: eddiewebb/queue@1.5.0
+  ruby: circleci/ruby@1.1.2
 
 commands:
 
@@ -125,17 +125,6 @@ jobs:
           name: Uploading to Nexus Sonatype
           command: ./gradlew publish -PLOCAL_UPLOAD=false --refresh-dependencies --stacktrace
 
-  upgradeDependencies:
-    executor: jdk_executor
-    steps:
-      - checkout
-      - add_ssh_keys:
-          fingerprints:
-            - "83:20:2b:71:67:9c:01:43:fe:ad:82:dc:e0:b6:b4:61"
-      - run:
-          name: Upgrade Dependencies
-          command: ./gradlew upgradeDependencies -PpullRequestEnabled=true --stacktrace
-
   release:
     executor: jdk_executor
     steps:
@@ -151,24 +140,36 @@ jobs:
       - run:
           name: Create GitHub Release
           command: ./gradlew :createGitHubRelease << pipeline.parameters.releaseGradleFlags >>
-      - run:
-          name: Generate Changelog
-          command: ./gradlew :generateChangelog << pipeline.parameters.releaseGradleFlags >>
+      #      - run:
+      #          name: Generate Changelog
+      #          command: ./gradlew :generateChangelog << pipeline.parameters.releaseGradleFlags >>
       - run:
           name: Copy Signing secret key ring file
           command: sudo bash -c "echo '$SIGNING_SECRET_KEY_RING' | base64 -d > '$SIGNING_SECRET_KEY_RING_FILE'"
       - run:
-          name: Publish on Maven Central
+          name: Publish on Sonatype
           command: ./gradlew publish << pipeline.parameters.releaseGradleFlags >>
       - run:
           name: Publish on Gradle Plugins Portal
           command: ./gradlew publishPlugins -PGRADLE_PLUGIN_PORTAL_ENABLED=true << pipeline.parameters.releaseGradleFlags >>
       - run:
-          name: Close and Release Repository
+          name: Close and Release Sonatype Repository
           command: ./gradlew closeAndReleaseRepository << pipeline.parameters.releaseGradleFlags >>
       - run:
           name: Send merge pull request
           command: ./gradlew sendMergePullRequest --stacktrace
+
+  upgradeDependencies:
+    executor: jdk_executor
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - "83:20:2b:71:67:9c:01:43:fe:ad:82:dc:e0:b6:b4:61"
+      - run:
+          name: Upgrade Dependencies
+          command: ./gradlew upgradeDependencies -PpullRequestEnabled=true --stacktrace
+
 workflows:
   commit:
     unless: << pipeline.parameters.api >>
@@ -193,16 +194,16 @@ workflows:
             - test
             - validatePlugins
             - security
-  #  weekly:
-  #    triggers:
-  #      - schedule:
-  #          cron: "0 0 * * 0"
-  #          filters:
-  #            branches:
-  #              only:
-  #                - master
-  #    jobs:
-  #      - upgradeDependencies
+  weekly:
+    triggers:
+      - schedule:
+          cron: "0 0 * * 0"
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - upgradeDependencies
 
   release:
     when: << pipeline.parameters.release >>
