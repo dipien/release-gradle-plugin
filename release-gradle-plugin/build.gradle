@@ -1,7 +1,7 @@
 ext.PROJECT_NAME = "Release Gradle Plugin"
 description = "Gradle plugin to automate artifact releases"
 ext.ARTIFACT_ID = "releae-gradle-plugin"
-ext.GRADLE_PLUGIN_ID = "com.dipien.releasegradleplugin"
+ext.GRADLE_PLUGIN_ID = "com.dipien.release"
 ext.GRADLE_PLUGIN_IMPLEMENTATION_CLASS = "com.dipien.release.ReleaseGradlePlugin"
 ext.GRADLE_PLUGIN_PORTAL_TAGS = ["gradle", "plugin", "release"]
 
