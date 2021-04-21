@@ -2,13 +2,10 @@ package com.classdojo.gradle.android.git
 
 import com.dipien.release.common.LoggerHelper
 import com.dipien.release.task.AbstractGitHubTask
-import com.jdroid.github.RepositoryId
-import com.jdroid.github.client.GitHubClient
 import com.jdroid.github.service.IssueService
 import com.jdroid.github.service.PullRequestService
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.options.Option
-import java.lang.IllegalArgumentException
 import java.lang.RuntimeException
 
 open class AutomergePullRequestTask : AbstractGitHubTask() {
