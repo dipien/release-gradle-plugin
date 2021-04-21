@@ -1,22 +1,31 @@
 package com.dipien.release.task
 
 import com.dipien.release.common.AbstractTask
+import com.jdroid.github.RepositoryId
 import com.jdroid.github.client.GitHubClient
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Internal
+import org.gradle.api.tasks.Optional
+import java.lang.IllegalArgumentException
 
 abstract class AbstractGitHubTask : AbstractTask() {
 
     @get:Input
-    lateinit var gitHubRepositoryOwner: String
+    @get:Optional
+    var gitHubRepositoryOwner: String? = null
 
     @get:Input
-    lateinit var gitHubRepositoryName: String
+    @get:Optional
+    var gitHubRepositoryName: String? = null
 
     @get:Input
-    lateinit var gitHubWriteToken: String
+    @get:Optional
+    var gitHubWriteToken: String? = null
 
-    protected fun createGitHubClient(gitHubWriteToken: String): GitHubClient {
+    protected fun createGitHubClient(): GitHubClient {
+        if (gitHubWriteToken == null) {
+            throw IllegalArgumentException("gitHubWriteToken is required")
+        }
         val client = GitHubClient()
         client.setSerializeNulls(false)
         client.setOAuth2Token(gitHubWriteToken)
@@ -25,6 +34,10 @@ abstract class AbstractGitHubTask : AbstractTask() {
 
     @Internal
     fun getRepositoryUrl(): String {
-        return "git@github.com:$gitHubRepositoryOwner/$gitHubRepositoryName.git"
+        return "https://github.com/${gitHubRepositoryOwner!!}/${gitHubRepositoryName!!}"
+    }
+    @Internal
+    fun getRepositoryId(): RepositoryId {
+        return RepositoryId.create(gitHubRepositoryOwner!!, gitHubRepositoryName!!)
     }
 }

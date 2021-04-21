@@ -8,6 +8,7 @@ import com.jdroid.github.service.IssueService
 import com.jdroid.github.service.PullRequestService
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.options.Option
+import java.lang.IllegalArgumentException
 import java.lang.RuntimeException
 
 open class AutomergePullRequestTask : AbstractGitHubTask() {
@@ -29,11 +30,9 @@ open class AutomergePullRequestTask : AbstractGitHubTask() {
 
         val pullRequestNumber = pullRequestNumber.toInt()
 
-        val client = GitHubClient()
-        client.setSerializeNulls(false)
-        client.setOAuth2Token(gitHubWriteToken)
+        val client = createGitHubClient()
 
-        val repositoryIdProvider = RepositoryId.create(gitHubRepositoryOwner, gitHubRepositoryName)
+        val repositoryIdProvider = getRepositoryId()
 
         val issueService = IssueService(client)
         val issue = issueService.getIssue(repositoryIdProvider, pullRequestNumber)

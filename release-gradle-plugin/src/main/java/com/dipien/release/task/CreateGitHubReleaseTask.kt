@@ -3,7 +3,6 @@ package com.dipien.release.task
 import com.dipien.release.common.LoggerHelper
 import com.jdroid.github.IRepositoryIdProvider
 import com.jdroid.github.Release
-import com.jdroid.github.RepositoryId
 import com.jdroid.github.client.GitHubClient
 import com.jdroid.github.service.ReleaseService
 import org.gradle.api.tasks.Input
@@ -27,9 +26,9 @@ open class CreateGitHubReleaseTask : AbstractGitHubTask() {
     var releaseNotes: String? = null
 
     override fun onExecute() {
-        val client: GitHubClient = createGitHubClient(gitHubWriteToken)
+        val client: GitHubClient = createGitHubClient()
         val tagName = "v" + project.version
-        val repositoryIdProvider = RepositoryId.create(gitHubRepositoryOwner, gitHubRepositoryName)
+        val repositoryIdProvider = getRepositoryId()
         val releaseService = ReleaseService(client)
         val release: Release? = releaseService.getReleaseByTagName(repositoryIdProvider, tagName)
         if (release == null) {

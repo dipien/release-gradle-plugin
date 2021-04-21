@@ -16,8 +16,8 @@ open class CloseGitHubMilestoneTask : AbstractGitHubTask() {
     @Throws(IOException::class)
     override fun onExecute() {
         val milestoneTitle = "v" + project.version
-        val milestoneService = MilestoneService(createGitHubClient(gitHubWriteToken))
-        val repositoryIdProvider = RepositoryId.create(gitHubRepositoryOwner, gitHubRepositoryName)
+        val milestoneService = MilestoneService(createGitHubClient())
+        val repositoryIdProvider = getRepositoryId()
         val milestone = milestoneService.getMilestones(repositoryIdProvider, "open").find { it.title == milestoneTitle }
         if (milestone != null) {
             val newMilestone = Milestone()
@@ -27,7 +27,7 @@ open class CloseGitHubMilestoneTask : AbstractGitHubTask() {
             newMilestone.dueOn = Date()
             newMilestone.state = "closed"
             milestoneService.editMilestone(repositoryIdProvider, newMilestone)
-            LoggerHelper.log("Milestone #${milestone.number} closed. [https://github.com/$gitHubRepositoryOwner/$gitHubRepositoryName/milestones/${milestone.number}]")
+            LoggerHelper.log("Milestone #${milestone.number} closed. [${getRepositoryUrl()}/milestones/${milestone.number}]")
         }
     }
 }
