@@ -1,10 +1,10 @@
 package com.dipien.release.task
 
 import com.dipien.release.common.LoggerHelper
-import com.jdroid.github.IRepositoryIdProvider
-import com.jdroid.github.Release
-import com.jdroid.github.client.GitHubClient
-import com.jdroid.github.service.ReleaseService
+import com.dipien.github.IRepositoryIdProvider
+import com.dipien.github.Release
+import com.dipien.github.client.GitHubClient
+import com.dipien.github.service.ReleaseService
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.options.Option

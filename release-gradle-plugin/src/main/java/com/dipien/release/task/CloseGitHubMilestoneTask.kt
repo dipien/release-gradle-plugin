@@ -1,8 +1,8 @@
 package com.dipien.release.task
 
 import com.dipien.release.common.LoggerHelper
-import com.jdroid.github.Milestone
-import com.jdroid.github.service.MilestoneService
+import com.dipien.github.Milestone
+import com.dipien.github.service.MilestoneService
 import java.io.IOException
 import java.util.Date
 

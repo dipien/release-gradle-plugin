@@ -14,7 +14,7 @@ buildscript {
 }
 
 dependencies {
-	implementation(Libs.JDROID_JAVA_GITHUB)
+	implementation(Libs.GITHUB_API)
 	testImplementation(Libs.JUNIT)
 }
 

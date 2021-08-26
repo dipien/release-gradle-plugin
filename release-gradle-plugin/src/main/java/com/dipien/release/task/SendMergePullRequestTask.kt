@@ -1,14 +1,16 @@
-package com.classdojo.gradle.android.git
+package com.dipien.release.task
 
+import com.classdojo.gradle.android.git.AutomergePullRequestTask
 import com.dipien.release.common.AbstractTask
 import com.dipien.release.common.LoggerHelper
-import com.jdroid.github.PullRequest
-import com.jdroid.github.RepositoryId
-import com.jdroid.github.client.GitHubClient
-import com.jdroid.github.service.IssueService
-import com.jdroid.github.service.LabelsService
-import com.jdroid.github.service.PullRequestService
-import com.jdroid.github.service.ReviewRequestsService
+import com.dipien.github.PullRequest
+import com.dipien.github.RepositoryId
+import com.dipien.github.client.GitHubClient
+import com.dipien.github.client.RequestException
+import com.dipien.github.service.IssueService
+import com.dipien.github.service.LabelsService
+import com.dipien.github.service.PullRequestService
+import com.dipien.github.service.ReviewRequestsService
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.options.Option
@@ -122,7 +124,7 @@ open class SendMergePullRequestTask : AbstractTask() {
             } else {
                 LoggerHelper.log("Pull Request from $headBranch to $baseBranch not created. Pull request already exists.")
             }
-        } catch (e: com.jdroid.github.client.RequestException) {
+        } catch (e: RequestException) {
             if (e.message?.contains(" No commits between") == true) {
                 LoggerHelper.log("Pull Request from $headBranch to $baseBranch not created. Nothing to merge, so the $headBranch will be removed")
                 commandExecutor.execute("git push origin --delete $headBranch")

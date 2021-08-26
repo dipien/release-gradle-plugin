@@ -1,7 +1,7 @@
 package com.dipien.release
 
 import com.classdojo.gradle.android.git.AutomergePullRequestTask
-import com.classdojo.gradle.android.git.SendMergePullRequestTask
+import com.dipien.release.task.SendMergePullRequestTask
 import com.dipien.release.common.AbstractTask
 import com.dipien.release.task.AbstractGitHubTask
 import com.dipien.release.task.CloseGitHubMilestoneTask
