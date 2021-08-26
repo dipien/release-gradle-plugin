@@ -17,6 +17,14 @@ open class CreateGitHubReleaseTask : AbstractGitHubTask() {
     }
 
     @get:Input
+    @get:Optional
+    var gitHubUserName: String? = null
+
+    @get:Input
+    @get:Optional
+    var gitHubUserEmail: String? = null
+
+    @get:Input
     @Option(description = "")
     lateinit var gitBranch: String
 
@@ -61,6 +69,13 @@ open class CreateGitHubReleaseTask : AbstractGitHubTask() {
                     }
                 }
             }
+        }
+
+        if (gitHubUserName != null) {
+            commandExecutor.execute("git config user.name $gitHubUserName")
+        }
+        if (gitHubUserEmail != null) {
+            commandExecutor.execute("git config user.email $gitHubUserEmail")
         }
         commandExecutor.execute("git add -A")
         commandExecutor.execute("git stash")
