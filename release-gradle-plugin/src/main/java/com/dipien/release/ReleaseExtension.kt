@@ -9,10 +9,8 @@ open class ReleaseExtension(project: Project) {
     var gitHubRepositoryOwner = project.propertyResolver.getStringProp("GITHUB_REPOSITORY_OWNER")
     var gitHubRepositoryName = project.propertyResolver.getStringProp("GITHUB_REPOSITORY_NAME")
 
-    // TODO Rename this to gitUserName
-    var gitHubUserName = project.propertyResolver.getStringProp("GITHUB_USER_NAME")
-    // TODO Rename this to gitUserEmail
-    var gitHubUserEmail = project.propertyResolver.getStringProp("GITHUB_USER_EMAIL")
+    var gitUserName = project.propertyResolver.getStringProp("GIT_USER_NAME")
+    var gitUserEmail = project.propertyResolver.getStringProp("GIT_USER_EMAIL")
 
     var defaultBranch = "master"
     var releaseBranch = "production"

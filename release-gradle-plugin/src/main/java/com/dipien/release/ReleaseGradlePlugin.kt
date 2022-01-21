@@ -28,8 +28,8 @@ class ReleaseGradlePlugin : Plugin<Project> {
         project.afterEvaluate {
             configureAbstractGitHubTask(createGitHubReleaseTask, extension)
             createGitHubReleaseTask.gitBranch = extension.releaseBranch
-            createGitHubReleaseTask.gitHubUserName = extension.gitHubUserName
-            createGitHubReleaseTask.gitHubUserEmail = extension.gitHubUserEmail
+            createGitHubReleaseTask.gitUserName = extension.gitUserName
+            createGitHubReleaseTask.gitUserEmail = extension.gitUserEmail
 
             configureAbstractGitHubTask(closeGitHubMilestoneTask, extension)
 
@@ -37,8 +37,8 @@ class ReleaseGradlePlugin : Plugin<Project> {
 
             configureAbstractGitHubTask(generateChangelogTask, extension)
             generateChangelogTask.gitBranch = extension.releaseBranch
-            generateChangelogTask.gitHubUserName = extension.gitHubUserName
-            generateChangelogTask.gitHubUserEmail = extension.gitHubUserEmail
+            generateChangelogTask.gitUserName = extension.gitUserName
+            generateChangelogTask.gitUserEmail = extension.gitUserEmail
 
             configureAbstractTask(sendMergePullRequestTask, extension)
             sendMergePullRequestTask.baseBranch = extension.defaultBranch

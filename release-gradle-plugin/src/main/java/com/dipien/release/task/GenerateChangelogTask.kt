@@ -9,11 +9,11 @@ open class GenerateChangelogTask : AbstractGitHubTask() {
 
     @get:Input
     @get:Optional
-    var gitHubUserName: String? = null
+    var gitUserName: String? = null
 
     @get:Input
     @get:Optional
-    var gitHubUserEmail: String? = null
+    var gitUserEmail: String? = null
 
     @get:Input
     @Option(description = "")
@@ -23,11 +23,11 @@ open class GenerateChangelogTask : AbstractGitHubTask() {
 
         Thread.sleep(80 * 1000)
 
-        if (gitHubUserName != null) {
-            commandExecutor.execute("git config user.name $gitHubUserName")
+        if (gitUserName != null) {
+            commandExecutor.execute("git config user.name $gitUserName")
         }
-        if (gitHubUserEmail != null) {
-            commandExecutor.execute("git config user.email $gitHubUserEmail")
+        if (gitUserEmail != null) {
+            commandExecutor.execute("git config user.email $gitUserEmail")
         }
 
         commandExecutor.execute("github_changelog_generator --no-unreleased --no-pull-requests --no-pr-wo-labels --exclude-labels task -t $gitHubWriteToken")

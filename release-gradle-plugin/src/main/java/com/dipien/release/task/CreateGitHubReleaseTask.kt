@@ -18,11 +18,11 @@ open class CreateGitHubReleaseTask : AbstractGitHubTask() {
 
     @get:Input
     @get:Optional
-    var gitHubUserName: String? = null
+    var gitUserName: String? = null
 
     @get:Input
     @get:Optional
-    var gitHubUserEmail: String? = null
+    var gitUserEmail: String? = null
 
     @get:Input
     @Option(description = "")
@@ -71,11 +71,11 @@ open class CreateGitHubReleaseTask : AbstractGitHubTask() {
             }
         }
 
-        if (gitHubUserName != null) {
-            commandExecutor.execute("git config user.name $gitHubUserName")
+        if (gitUserName != null) {
+            commandExecutor.execute("git config user.name $gitUserName")
         }
-        if (gitHubUserEmail != null) {
-            commandExecutor.execute("git config user.email $gitHubUserEmail")
+        if (gitUserEmail != null) {
+            commandExecutor.execute("git config user.email $gitUserEmail")
         }
         commandExecutor.execute("git add -A")
         commandExecutor.execute("git stash")

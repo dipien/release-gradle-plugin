@@ -7,8 +7,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_WRITE_TOKEN: ${{ secrets.CI_GITHUB_WRITE_TOKEN }}
-      GITHUB_USER_EMAIL: ${{ secrets.GIT_USER_EMAIL }}
-      GITHUB_USER_NAME: ${{ secrets.GIT_USER_NAME }}
+      GIT_USER_EMAIL: ${{ secrets.GIT_USER_EMAIL }}
+      GIT_USER_NAME: ${{ secrets.GIT_USER_NAME }}
       PUBLISHING_REPO_PASSWORD: ${{ secrets.PUBLISHING_REPO_PASSWORD }}
       PUBLISHING_REPO_USERNAME: ${{ secrets.PUBLISHING_REPO_USERNAME }}
       RELEASES_HUB_USER_TOKEN: ${{ secrets.RELEASES_HUB_USER_TOKEN }}
