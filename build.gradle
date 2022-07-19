@@ -46,8 +46,3 @@ allprojects {
 		maven { url = "https://oss.sonatype.org/content/repositories/snapshots/" }
 	}
 }
-
-// TODO Remove this when upgrade RELEASE_GRADLE_PLUGIN to v1.1.0
-release {
-	releaseBranch = "master"
-}
