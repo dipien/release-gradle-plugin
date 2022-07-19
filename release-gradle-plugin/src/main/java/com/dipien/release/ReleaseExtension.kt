@@ -13,5 +13,5 @@ open class ReleaseExtension(project: Project) {
     var gitUserEmail = project.propertyResolver.getStringProp("GIT_USER_EMAIL")
 
     var defaultBranch = "master"
-    var releaseBranch = "production"
+    var releaseBranch = "master"
 }
